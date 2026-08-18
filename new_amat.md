@@ -33,10 +33,10 @@
 | 部署账号 | `0x990Faf410fc48F471D63B51B851024eD240E3897` | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | 不配置到业务前后端；仅部署脚本使用 `EVAMAIN_PRIVATE_KEY`。 |
 | 最终 Owner | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | 不配置到业务前后端；通过各合约 `transferOwnership()` 设置。 |
 | AMAT/HNS Emergency | `0x990Faf410fc48F471D63B51B851024eD240E3897` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | 不配置到前后端；分别调用 AMAT/HNS 的 `setEmergency(address)`。 |
-| Stake signer | `0xc25EceD4d740EeDd3499Cb98102C8468660ceAf1` | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | 链上调用 `Stake.setSigner(address)`；后端需更新对应签名私钥，交付源码未找到其生产配置位置，必须在服务器环境/密钥配置中确认。 |
+| Stake signer | `0xc25EceD4d740EeDd3499Cb98102C8468660ceAf1` | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | 链上调用 `Stake.setSigner(address)`；Go 签名服务：`services/backend-go-hnt/config/amax.go` 的 `PrivateKeyOfSigner`、`AddrOfSigner`、`StakeAddr`。领取 API：`GET /apii/claim`，生产公开地址为 `https://amatthing.xyz/api/claim`。 |
 | Stake 手续费接收 | `0x990Faf410fc48F471D63B51B851024eD240E3897` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | 不配置到前后端；链上调用 `Stake.setFeeRev(address)`。 |
 | Swap 额外 AMAX 接收 | `0x9c95BEaA72Afe34ACdB0f36A4daf08Cc79EC7b16` | `0x9c95BEaA72Afe34ACdB0f36A4daf08Cc79EC7b16` | 不配置到前后端；链上调用 `Swap.setMoreTakeOutToAddr(rate,address)`；地址未变化。 |
 | RewardShare 75% 接收 | `0x21246a0DD2093c27B8fa969Fe759CE700C216588` | `0x21246a0DD2093c27B8fa969Fe759CE700C216588` | 不配置到前后端；RewardShare 链上配置 `admin1`；地址未变化。 |
 | RewardShare 25% 接收 | `0xE369feB7F872a092ec993B4aE87CAAaD39a76c51` | `0xE369feB7F872a092ec993B4aE87CAAaD39a76c51` | 不配置到前后端；RewardShare 链上配置 `admin2`；地址未变化。 |
 
-> 前端路径均相对于 `/Users/charliejiang/work/contracts/amax-contracts-swap-single-tx-latest`。交付的 Java 后端未发现主网合约地址或 Stake 签名私钥的硬编码配置；上线前仍需检查生产服务器环境变量、外挂配置和密钥服务。
+> 路径均相对于 `/Users/charliejiang/work/contracts/amax-contracts-swap-single-tx-latest`。Java 后端未发现 Stake 签名实现；补充交付的 Go 服务负责 `/api/claim` 签名，但压缩包中的 signer 私钥、signer 地址和 Stake 地址均为空，上线前必须从生产密钥配置补齐。
