@@ -1,6 +1,6 @@
 # AMAT 主网第一版与第三版对比
 
-> 第一版数据取自主网历史快照区块 `1971414`；第三版数据查询于主网区块 `2025154`。余额、累计量和 Pair 储备属于动态数据，后续会随业务变化。
+> 第一版数据取自主网历史快照区块 `1971414`；第三版余额数据查询于主网区块 `2025154`，权限状态复核于区块 `2025497`。余额、累计量和 Pair 储备属于动态数据，后续会随业务变化。
 
 ## 合约地址
 
@@ -29,7 +29,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---:|---:|
-| Owner | `0x5B2020...baC95` | `0x69fedC...0591D` |
+| Owner | `0x5B2020...baC95` | `0x5B2020...baC95` |
 | Emergency | `0x990Faf...E3897` | `0x69d29C...d0E0C` |
 | 是否暂停 | 是 | 否，转账已开放 |
 | totalSupply | `105,306,038.735783367061063206 AMAT` | `105,300,083.308724551048451097 AMAT` |
@@ -40,7 +40,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---:|---:|
-| Owner | `0x5B2020...baC95` | `0x69fedC...0591D` |
+| Owner | `0x5B2020...baC95` | `0x5B2020...baC95` |
 | Emergency | `0x990Faf...E3897` | `0x69d29C...d0E0C` |
 | 是否暂停 | 是 | 否，转账已开放 |
 | totalSupply | `97,609,075.475977 HNS` | `97,608,523.5731815 HNS` |
@@ -51,7 +51,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---|---|
-| Owner | `0x990Faf...E3897` | `0x69fedC...0591D` |
+| Owner | `0x990Faf...E3897` | `0x5B2020...baC95` |
 | feeTo | 零地址 | 零地址 |
 | feeToSetter | `0x990Faf...E3897` | `0xFE7133...Fa7cB` |
 | Pair 数量 | `3` | `1` |
@@ -61,24 +61,24 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---:|---:|
-| Owner | `0x990Faf...E3897` | `0x69fedC...0591D` |
+| Owner | `0x990Faf...E3897` | `0x5B2020...baC95` |
 | token0 | WAMAX | WAMAX |
 | token1 | 第一版 AMAT | 第三版 AMAT |
 | WAMAX 储备 | 历史快照时已提取，为 `0` | `3,022,984.560014677591401242` |
 | AMAT 储备 | 历史快照时已提取，为 `0` | `31,161,686.257669564327137259` |
 | 价格 | 迁移基准约 `0.097009659 AMAX/AMAT` | 约 `0.097009659 AMAX/AMAT` |
 | LP totalSupply | `3.162277660168379331` | `9,695,293.748686652821114957` |
-| 部署账号 authorized | 是 | 是 |
-| 最终 Owner authorized | 否 | 否 |
+| 部署账号 authorized | 是 | 否 |
+| 最终 Owner authorized | 否 | 是 |
 
 ## Router
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---|---|
-| Owner | `0x990Faf...E3897` | `0x69fedC...0591D` |
+| Owner | `0x990Faf...E3897` | `0x5B2020...baC95` |
 | Factory | 第一版 Factory | 第三版 Factory |
 | WETH | WAMAX | WAMAX |
-| 部署账号 authorized | 是 | 是 |
+| 部署账号 authorized | 是 | 否 |
 | 最终 Owner authorized | 否 | 是 |
 | 合约余额 | `0` | `0` |
 
@@ -86,7 +86,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---|---|
-| Owner | `0x5B2020...baC95` | `0x69fedC...0591D` |
+| Owner | `0x5B2020...baC95` | `0x5B2020...baC95` |
 | 管理范围 | 第一版 5 个代理 | 第三版 5 个代理 |
 | 合约余额 | `0` | `0` |
 
@@ -94,7 +94,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---:|---:|
-| Owner | `0x5B2020...baC95` | `0x69fedC...0591D` |
+| Owner | `0x5B2020...baC95` | `0x5B2020...baC95` |
 | signer | `0xc25Ece...ceAf1` | `0x5f5261...6F4` |
 | 手续费接收 | `0x990Faf...E3897` | `0xFE7133...Fa7cB` |
 | AMAT/HNS 铸造比例 | `50% / 50%` | `50% / 50%` |
@@ -114,7 +114,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---:|---:|
-| Owner | `0x5B2020...baC95` | `0x69fedC...0591D` |
+| Owner | `0x5B2020...baC95` | `0x5B2020...baC95` |
 | 卖出开关 isSellOpen | 开启 | 开启 |
 | canSellGlobal | `false` | `false` |
 | notBurnGlobal | `false` | `false` |
@@ -142,7 +142,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---:|---:|
-| Owner | `0x5B2020...baC95` | `0x69fedC...0591D` |
+| Owner | `0x5B2020...baC95` | `0x5B2020...baC95` |
 | Pair | 第一版 Pair | 第三版 Pair |
 | AMAX/WAMAX 最低储备阈值 | `2,000,000 AMAX` | `3,000,000 AMAX` |
 | AMAT/HNS/WAMAX/AMAX 余额 | `0` | `0` |
@@ -153,7 +153,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---|---|
-| Owner | `0x5B2020...baC95` | `0x69fedC...0591D` |
+| Owner | `0x5B2020...baC95` | `0x5B2020...baC95` |
 | 75% 接收地址 admin1 | `0x21246a...16588` | `0x93019d...eEac8` |
 | 25% 接收地址 admin2 | `0xE369fe...76c51` | `0x25cb73...ff0Dc` |
 | token | 零地址，分配原生 AMAX | 零地址，分配原生 AMAX |
@@ -166,7 +166,7 @@
 
 | 参数/状态 | 第一版 | 第三版 |
 |---|---:|---:|
-| Owner | `0x990Faf...E3897` | `0x69fedC...0591D` |
+| Owner | `0x990Faf...E3897` | `0x5B2020...baC95` |
 | Token | 第一版 AMAT | 第三版 AMAT |
 | AMAT 余额 | `53,155,519.111710224091371552` | `53,155,516.891285669621768796` |
 | HNS/WAMAX/AMAX 余额 | `0` | `0` |
@@ -177,8 +177,8 @@
 
 | 功能 | 当前地址 | 修改方式 |
 |---|---|---|
-| 部署账号/当前 Owner | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | 部署脚本；后续由各合约 `transferOwnership()` 转移 |
-| 最终 Owner | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | 权限和 LP 最终接收账号 |
+| 原部署账号 | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | 已移除 Owner、Operator、Token 白名单及 Pair/Router authorized 权限 |
+| 最终 Owner | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | 当前所有合约 Owner、ProxyAdmin Owner、Pair/Router authorized 及 LP 持有人 |
 | AMAT/HNS Emergency | `0x69d29C97ab2C41e882262ab5a51d56c4808d0E0C` | `setEmergency(address)` |
 | Stake signer | `0x5f5261D5EE00cf77fff47667846C4Af47F6Cc6F4` | `Stake.setSigner(address)`；同步 Go 签名服务 |
 | Stake 手续费接收 | `0xFE713348F8178C646927D3F31ade1A6448cFa7cB` | `Stake.setFeeRev(address)` |
@@ -186,11 +186,13 @@
 | RewardShare 75% 接收 | `0x93019dBdBd6eBEd325f6b8D5BBE4faBc41EeEac8` | `RewardShare.set1stAddr(address)` |
 | RewardShare 25% 接收 | `0x25cb73F7314d8C318E6DdaeEfd58d418a1aff0Dc` | `RewardShare.set2ndAddr(address)` |
 
-## 待完成权限收尾
+## 第三版权限状态
 
-- 第三版所有合约 Owner 及 ProxyAdmin Owner 仍是部署账号，尚未转给最终 Owner。
-- 部署账号在 Stake、Swap、AddLiquidity、RewardShare、PoolBurn 的 Operator 权限均已移除。
-- 部署账号仍有 Pair 和 Router 的 `authorized` 权限；最终 Owner 只有 Router `authorized` 权限。
+- AMAT、HNS、Factory、Pair、Router、Stake、Swap、AddLiquidity、RewardShare、PoolBurn 和 ProxyAdmin 的 Owner 均已转给最终 Owner。
+- 部署账号的 Stake、Swap、AddLiquidity、RewardShare、PoolBurn Operator 权限均为 `false`。
+- 部署账号的 AMAT/HNS 白名单及 Pair/Router `authorized` 权限均为 `false`。
+- 最终 Owner 的 AMAT/HNS 白名单及 Pair/Router `authorized` 权限均为 `true`。
+- AMAT/HNS Emergency 仍为独立地址 `0x69d29C...d0E0C`；Factory `feeToSetter` 仍为 `0xFE7133...Fa7cB`。
 - LP Token 已转给最终 Owner，仅保留 Pair 创建时永久锁定的最小 LP。
 
 > 项目路径：`/Users/charliejiang/work/contracts/amax-contracts-swap-single-tx-latest`。Go 签名服务需配置第三版 Stake 地址、signer 地址及对应私钥；Owner 私钥不得放入业务后端。
