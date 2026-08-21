@@ -32,11 +32,31 @@
 |---|---|---|---|---|
 | 部署账号 | `0x990Faf410fc48F471D63B51B851024eD240E3897` | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | 不配置到业务前后端；仅部署脚本使用 `EVAMAIN_PRIVATE_KEY`。 |
 | 最终 Owner | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | 不配置到业务前后端；通过各合约 `transferOwnership()` 设置。 |
-| AMAT/HNS Emergency | `0x990Faf410fc48F471D63B51B851024eD240E3897` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D`（阶段一） | 不配置到前后端；第三版阶段一暂由部署账号持有，后续转给最终 Owner。 |
+| AMAT/HNS Emergency | `0x990Faf410fc48F471D63B51B851024eD240E3897` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | `0x69d29C97ab2C41e882262ab5a51d56c4808d0E0C` | 不配置到前后端；分别调用 AMAT、HNS 的 `setEmergency(address)`。 |
 | Stake signer | `0xc25EceD4d740EeDd3499Cb98102C8468660ceAf1` | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | `0x5f5261D5EE00cf77fff47667846C4Af47F6Cc6F4` | 链上调用 `Stake.setSigner(address)`；Go 签名服务：`services/backend-go-hnt/config/amax.go` 的 `PrivateKeyOfSigner`、`AddrOfSigner`、`StakeAddr`。领取 API：`GET /apii/claim`，生产公开地址为 `https://amatthing.xyz/api/claim`。 |
-| Stake 手续费接收 | `0x990Faf410fc48F471D63B51B851024eD240E3897` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | 不配置到前后端；链上调用 `Stake.setFeeRev(address)`。 |
-| Swap 额外 AMAX 接收 | `0x9c95BEaA72Afe34ACdB0f36A4daf08Cc79EC7b16` | `0x9c95BEaA72Afe34ACdB0f36A4daf08Cc79EC7b16` | `0x9c95BEaA72Afe34ACdB0f36A4daf08Cc79EC7b16` | 不配置到前后端；链上调用 `Swap.setMoreTakeOutToAddr(rate,address)`；地址未变化。 |
-| RewardShare 75% 接收 | `0x21246a0DD2093c27B8fa969Fe759CE700C216588` | `0x21246a0DD2093c27B8fa969Fe759CE700C216588` | `0x21246a0DD2093c27B8fa969Fe759CE700C216588` | 不配置到前后端；RewardShare 链上配置 `admin1`；地址未变化。 |
-| RewardShare 25% 接收 | `0xE369feB7F872a092ec993B4aE87CAAaD39a76c51` | `0xE369feB7F872a092ec993B4aE87CAAaD39a76c51` | `0xE369feB7F872a092ec993B4aE87CAAaD39a76c51` | 不配置到前后端；RewardShare 链上配置 `admin2`；地址未变化。 |
+| Stake 手续费接收 | `0x990Faf410fc48F471D63B51B851024eD240E3897` | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | `0xFE713348F8178C646927D3F31ade1A6448cFa7cB` | 不配置到前后端；链上调用 `Stake.setFeeRev(address)`。 |
+| Swap 额外 AMAX 接收 | `0x9c95BEaA72Afe34ACdB0f36A4daf08Cc79EC7b16` | `0x9c95BEaA72Afe34ACdB0f36A4daf08Cc79EC7b16` | `0xe0096BF586D637447860Cc567F755192ddEa5b4d` | 不配置到前后端；链上调用 `Swap.setMoreTakeOutToAddr(rate,address)`；当前接收比例为 `0`。 |
+| RewardShare 75% 接收 | `0x21246a0DD2093c27B8fa969Fe759CE700C216588` | `0x21246a0DD2093c27B8fa969Fe759CE700C216588` | `0x93019dBdBd6eBEd325f6b8D5BBE4faBc41EeEac8` | 不配置到前后端；RewardShare 链上配置 `admin1`。 |
+| RewardShare 25% 接收 | `0xE369feB7F872a092ec993B4aE87CAAaD39a76c51` | `0xE369feB7F872a092ec993B4aE87CAAaD39a76c51` | `0x25cb73F7314d8C318E6DdaeEfd58d418a1aff0Dc` | 不配置到前后端；RewardShare 链上配置 `admin2`。 |
+
+## 第三版当前运行配置
+
+| 配置 | 当前值 | 修改方式 |
+|---|---|---|
+| AMAT 转账 | 已开放 | AMAT `unpause()` / `pause()` |
+| HNS 转账 | 已开放 | HNS `unpause()` / `pause()` |
+| Swap 卖出 | 已开放 | Swap 卖出开关方法 |
+| 每日卖出额度 | `20,000 AMAT` | Swap `setSellAmountDaily(20000 * 10^18)` |
+| Swap 额外 AMAX 接收比例 | `0` | Swap `setMoreTakeOutToAddr(0, address)` |
+| AddLiquidity AMAX 阈值 | `3,000,000 AMAX` | AddLiquidity `setAmountSwapLimitMin(3000000 * 10^18)` |
+| Stake signer | `0x5f5261D5EE00cf77fff47667846C4Af47F6Cc6F4` | Stake `setSigner(address)`，并同步 Go 签名服务私钥与地址 |
+| Stake 奖励池 | 当前待补充 | 直接向 Stake Proxy 转入第三版 AMAT，用户领取依赖该余额 |
+
+## 第三版权限状态
+
+- 各合约 Owner 当前仍为部署账号 `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D`，最终应转给 `0x5B20201ABe1b550F685Fff837f3749AfE21baC95`。
+- 部署账号在 Stake、Swap、AddLiquidity、RewardShare、PoolBurn 的 Operator 权限已移除。
+- AMAT/WAMAX LP Token 已转给最终 Owner；仅保留 Pair 创建时锁定的最小 LP。
+- 部署账号仍有 AMAT/HNS 白名单及 Pair/Router 授权，完成运维确认后应继续移除。
 
 > 路径均相对于 `/Users/charliejiang/work/contracts/amax-contracts-swap-single-tx-latest`。Java 后端未发现 Stake 签名实现；补充交付的 Go 服务负责 `/api/claim` 签名，但压缩包中的 signer 私钥、signer 地址和 Stake 地址均为空，上线前必须从生产密钥配置补齐。
