@@ -1,6 +1,6 @@
 # AMAT 主网第一版、第三版与第四版对比
 
-> 第一版数据取自主网历史快照区块 `1971414`；第三版余额数据查询于主网区块 `2025154`，权限状态复核于区块 `2025497`；第四版合约部署及状态核验于区块 `2058004`。第四版目前仅完成合约部署和参数配置，尚未执行资金迁移、历史销毁量初始化、添加流动性、开放交易及 Owner 转移。
+> 第一版数据取自主网历史快照区块 `1971414`；第三版余额数据查询于主网区块 `2025154`，权限状态复核于区块 `2025497`；第四版最新状态核验于区块 `2061777`。第四版已完成资金迁移、历史销毁量初始化、添加流动性及交易开放；前后端尚未全部切换，Owner 和运行权限尚未最终转移。
 
 ## 合约地址
 
@@ -30,9 +30,9 @@
 | 参数/状态 | 第一版 | 第三版 | 第四版 |
 |---|---:|---:|---:|
 | Owner | `0x5B2020...baC95` | `0x5B2020...baC95` | `0x69fedC...0591D`（待转移） |
-| Emergency | `0x990Faf...E3897` | `0x69d29C...d0E0C` | `0x69fedC...0591D`（待配置） |
-| 是否暂停 | 是 | 否，转账已开放 | 是，资金迁移前保持暂停 |
-| totalSupply | `105,306,038.735783367061063206 AMAT` | `105,300,083.308724551048451097 AMAT` | `210,000,000 AMAT`（尚未初始化历史销毁量） |
+| Emergency | `0x990Faf...E3897` | `0x69d29C...d0E0C` | `0x5B2020...baC95` |
+| 是否暂停 | 是 | 否，转账已开放 | 否，转账已开放 |
+| totalSupply | `105,306,038.735783367061063206 AMAT` | `105,300,083.308724551048451097 AMAT` | `104,858,424.114474635630963198 AMAT` |
 | 黑名单功能 | 无 | 无 | 有，Owner 可添加/删除 |
 | 合约自身 AMAT 余额 | `20,266.1033 AMAT` | `0 AMAT` | `0 AMAT` |
 | 合约原生 AMAX 余额 | `1.009 AMAX` | `0 AMAX` | `0 AMAX` |
@@ -44,7 +44,7 @@
 | Owner | `0x5B2020...baC95` | `0x5B2020...baC95` | 复用第三版，`0x5B2020...baC95` |
 | Emergency | `0x990Faf...E3897` | `0x69d29C...d0E0C` | 复用第三版，`0x69d29C...d0E0C` |
 | 是否暂停 | 是 | 否，转账已开放 | 复用第三版，未暂停 |
-| totalSupply | `97,609,075.475977 HNS` | `97,608,523.5731815 HNS` | `97,570,952.6994175 HNS`（复用合约当前值） |
+| totalSupply | `97,609,075.475977 HNS` | `97,608,523.5731815 HNS` | `97,568,398.32921 HNS`（复用合约当前值） |
 | 合约自身 HNS 余额 | `94,900.923298 HNS` | `0 HNS` | `0 HNS` |
 | 合约原生 AMAX 余额 | `0.7 AMAX` | `0 AMAX` | `0 AMAX` |
 
@@ -65,10 +65,10 @@
 | Owner | `0x990Faf...E3897` | `0x5B2020...baC95` | `0x69fedC...0591D`（待转移） |
 | token0 | WAMAX | WAMAX | WAMAX |
 | token1 | 第一版 AMAT | 第三版 AMAT | 第四版 AMAT |
-| WAMAX 储备 | 历史快照时已提取，为 `0` | `3,022,984.560014677591401242` | `0`，尚未添加流动性 |
-| AMAT 储备 | 历史快照时已提取，为 `0` | `31,161,686.257669564327137259` | `0`，尚未添加流动性 |
-| 价格 | 迁移基准约 `0.097009659 AMAX/AMAT` | 约 `0.097009659 AMAX/AMAT` | 暂无价格 |
-| LP totalSupply | `3.162277660168379331` | `9,695,293.748686652821114957` | `0` |
+| WAMAX 储备 | 历史快照时已提取，为 `0` | `3,022,984.560014677591401242` | `3,022,985.012161371171741010` |
+| AMAT 储备 | 历史快照时已提取，为 `0` | `31,161,686.257669564327137259` | `31,161,907.563537117651396668` |
+| 价格 | 迁移基准约 `0.097009659 AMAX/AMAT` | 约 `0.097009659 AMAX/AMAT` | 约 `0.097009 AMAX/AMAT` |
+| LP totalSupply | `3.162277660168379331` | `9,695,293.748686652821114957` | `9,704,590.212327637505676223` |
 | 部署账号 authorized | 是 | 否 | 是（待移除） |
 | 最终 Owner authorized | 否 | 是 | 否（待配置） |
 
@@ -100,12 +100,12 @@
 | 手续费接收 | `0x990Faf...E3897` | `0xFE7133...Fa7cB` | `0xFE7133...Fa7cB` |
 | AMAT/HNS 铸造比例 | `50% / 50%` | `50% / 50%` | `50% / 50%` |
 | HNS 参考价格 | `1` | `1` | `1` |
-| AMAT 参考价格 | 链上 AMM 现货价 | `0.092672702499218719` | `Swap.getHntPrice()` 实时价；Pair 尚未注资 |
+| AMAT 参考价格 | 链上 AMM 现货价 | `0.092672702499218719` | `Swap.getHntPrice()` 实时价；当前 `priceHnt()` 返回 `0.08664` |
 | 价格有效期 priceMaxAge | 无 | `0`，不限制过期 | `0`，实时价逻辑不依赖过期时间 |
 | 质押周期步长 | `1,800 秒` | `1,800 秒` | `1,800 秒` |
 | 最小质押值 | `1` | `1` | `1` |
 | needNotPayFee | `false` | `false` | `false` |
-| AMAT 余额/可用奖励 | `21,850,999.758820357685786015` | `999,999.9994` | `0`，尚未注资 |
+| AMAT 余额/可用奖励 | `21,850,999.758820357685786015` | `999,999.9994` | `298,610.452254241436647946`，其中可用奖励约 `298,610.452194241436647946` |
 | HNS 余额 | `0` | `0` | `0` |
 | 原生 AMAX 余额 | `0.1` | `0` | `0` |
 | 部署账号 Operator | 第一版旧部署账号：是 | 否 | 是（待移除） |
@@ -116,8 +116,8 @@
 | 参数/状态 | 第一版 | 第三版 | 第四版 |
 |---|---:|---:|---:|
 | Owner | `0x5B2020...baC95` | `0x5B2020...baC95` | `0x69fedC...0591D`（待转移） |
-| 卖出开关 isSellOpen | 开启 | 开启 | 关闭，待测试后开放 |
-| canSellGlobal | `false` | `false` | `false` |
+| 卖出开关 isSellOpen | 开启 | 开启 | 开启 |
+| canSellGlobal | `false` | `false` | `true` |
 | notBurnGlobal | `false` | `false` | `false` |
 | is210Now | `false` | `false` | `false` |
 | sellAmountDaily | `1 AMAT` | `20,000 AMAT` | `20,000 AMAT` |
@@ -132,7 +132,7 @@
 | isIncrease2PairPool | `true` | `true` | `true` |
 | burnMul | `2` | `2` | `2` |
 | burnAmountTarget | `97,900,000 AMAT` | `97,900,000 AMAT` | `97,900,000 AMAT` |
-| burnAmount | `70,052,828.300757400683287947 AMAT` | `70,052,828.330157400683287947 AMAT` | `0`，历史值尚未初始化 |
+| burnAmount | `70,052,828.300757400683287947 AMAT` | `70,052,828.330157400683287947 AMAT` | `70,052,828.333097400683287947 AMAT` |
 | 额外 AMAX 接收比例 | `0` | `0` | `0` |
 | 额外 AMAX 接收地址 | `0x9c95BE...EC7b16` | `0xe0096B...a5b4d` | `0xe0096B...a5b4d` |
 | AMAT/HNS/WAMAX/AMAX 余额 | 接近 `0` | 全部 `0` | 全部 `0` |
@@ -145,7 +145,7 @@
 |---|---:|---:|---:|
 | Owner | `0x5B2020...baC95` | `0x5B2020...baC95` | `0x69fedC...0591D`（待转移） |
 | Pair | 第一版 Pair | 第三版 Pair | 第四版 Pair |
-| AMAX/WAMAX 最低储备阈值 | `2,000,000 AMAX` | `3,000,000 AMAX` | `0`，添加流动性后设置 |
+| AMAX/WAMAX 最低储备阈值 | `2,000,000 AMAX` | `3,000,000 AMAX` | `3,000,000 AMAX` |
 | AMAT/HNS/WAMAX/AMAX 余额 | `0` | `0` | `0` |
 | 部署账号 Operator | 第一版旧部署账号：是 | 否 | 否 |
 | 最终 Owner Operator | 否 | 是 | 是 |
@@ -169,7 +169,7 @@
 |---|---:|---:|---:|
 | Owner | `0x990Faf...E3897` | `0x5B2020...baC95` | `0x69fedC...0591D`（待转移） |
 | Token | 第一版 AMAT | 第三版 AMAT | 第四版 AMAT |
-| AMAT 余额 | `53,155,519.111710224091371552` | `53,155,516.891285669621768796` | `0`，尚未注资 |
+| AMAT 余额 | `53,155,519.111710224091371552` | `53,155,516.891285669621768796` | `53,155,283.635961770719202990` |
 | HNS/WAMAX/AMAX 余额 | `0` | `0` | `0` |
 | 部署账号 Operator | 第一版旧部署账号：是 | 否 | 否 |
 | 最终 Owner Operator | 否 | 否 | 否 |
@@ -196,13 +196,38 @@
 - AMAT/HNS Emergency 仍为独立地址 `0x69d29C...d0E0C`；Factory `feeToSetter` 仍为 `0xFE7133...Fa7cB`。
 - LP Token 已转给最终 Owner，仅保留 Pair 创建时永久锁定的最小 LP。
 
+## 第四版账号配置核对
+
+| 功能 | 第四版链上当前地址 | 核对结果 | 修改方式 |
+|---|---|---|---|
+| 部署账号 / 当前 Owner | `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D` | 仍是所有第四版新合约及 ProxyAdmin Owner，待最终转移 | 各合约 `transferOwnership(address)` |
+| 最终 Owner | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | LP 持有人；尚未接收第四版新合约 Owner | 由部署账号统一转移 |
+| AMAT Emergency | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` | 与第三版独立 Emergency 不同；当前为最终 Owner | `AMAT.setEmergency(address)` |
+| HNS Emergency | `0x69d29C97ab2C41e882262ab5a51d56c4808d0E0C` | 正确，复用第三版配置 | `HNS.setEmergency(address)` |
+| Stake signer | `0x5f5261D5EE00cf77fff47667846C4Af47F6Cc6F4` | 正确；Go 服务必须使用对应私钥 | `Stake.setSigner(address)` |
+| Stake 手续费接收 | `0xFE713348F8178C646927D3F31ade1A6448cFa7cB` | 正确 | `Stake.setFeeRev(address)` |
+| Factory feeToSetter | `0xFE713348F8178C646927D3F31ade1A6448cFa7cB` | 正确 | `Factory.setFeeToSetterByOwner(address)` |
+| Swap 额外 AMAX 接收 | `0xe0096BF586D637447860Cc567F755192ddEa5b4d` | 正确；接收比例当前为 `0` | `Swap.setMoreTakeOutToAddr(0,address)` |
+| RewardShare 75% 接收 | `0x93019dBdBd6eBEd325f6b8D5BBE4faBc41EeEac8` | 正确 | `RewardShare.set1stAddr(address)` |
+| RewardShare 25% 接收 | `0x25cb73F7314d8C318E6DdaeEfd58d418a1aff0Dc` | 正确 | `RewardShare.set2ndAddr(address)` |
+
+第四版权限现状：
+
+- 部署账号仍是 AMAT、Factory、Pair、Router、Stake、Swap、AddLiquidity、RewardShare、PoolBurn 和 ProxyAdmin Owner。
+- 部署账号仍是 Pair/Router authorized，并保留 AMAT 白名单；最终 Owner 是 Router authorized 和 AMAT 白名单，但尚不是 Pair authorized。
+- Stake、Swap、RewardShare 的部署账号 Operator 仍为 `true`；AddLiquidity 的部署账号 Operator 已移除，最终 Owner Operator 为 `true`。
+- PoolBurn 的部署账号及最终 Owner Operator 均为 `false`。
+- 因此业务收款账号和 signer 配置正确，但最终 Owner/Operator/authorized 权限迁移尚未完成。
+
 ## 第四版当前阶段
 
 - 已部署第四版 AMAT、Factory、Pair、Router、ProxyAdmin 和 5 个业务代理；HNS 继续使用第三版合约。
-- 第四版 AMAT 已暂停，完整 `210,000,000 AMAT` 仍在部署账号，尚未执行余额空投或历史销毁量初始化。
-- Pair 储备和 LP 总量均为 `0`；Stake、Swap、AddLiquidity、RewardShare、PoolBurn 的第四版 AMAT 余额均为 `0`。
-- Swap `isSellOpen=false`、`burnAmount=0`；未执行买卖测试或开放交易。
-- 新合约 Owner 和 ProxyAdmin Owner 暂时仍是部署账号 `0x69fedC...0591D`，待资金迁移、测试完成后统一转给最终 Owner。
+- 第四版 AMAT 已完成历史销毁量初始化、余额迁移和转账开放；当前总供应量约 `104,858,424.114474635630963198 AMAT`。
+- Pair 已加入约 `3,022,985.012161 WAMAX` 与 `31,161,907.563537 AMAT`，LP Token 已由最终 Owner 持有。
+- Stake 当前持有约 `298,610.452254 AMAT`；PoolBurn 当前持有约 `53,155,283.635962 AMAT`。
+- Swap `isSellOpen=true`、`canSellGlobal=true`；AddLiquidity 最低储备阈值已设置为 `3,000,000 AMAX`。
+- 新合约 Owner 和 ProxyAdmin Owner 仍是部署账号 `0x69fedC...0591D`，尚未统一转给最终 Owner。
 - HNS 的 Owner、Emergency、暂停状态和 totalSupply 在第四版部署前后没有变化。
+- Go 服务需要切换第四版 Stake，并重置第四版事件读取游标；Java、用户前端和 Swap 前端需要切换第四版地址。
 
-> 第四版部署记录：`deployments/evamain-v4-contracts.json`，合约仓库提交 `081913e`。业务前后端当前仍使用第三版地址，第四版完成迁移和验收前不得切换。
+> 第四版部署记录：`deployments/evamain-v4-contracts.json`，合约仓库提交 `081913e`。截至本次核验，线上 `amatthing.xyz` 与 `superswaps.xyz` 的构建包仍使用第三版 AMAT、Stake 和 Swap 地址。
