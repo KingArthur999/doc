@@ -1,29 +1,29 @@
-# AMAT 主网第一版、第三版与第四版对比
+# AMAT 主网第一版、第三版、第四版与第五版对比
 
-> 第一版数据取自主网历史快照区块 `1971414`；第三版余额数据查询于主网区块 `2025154`，权限状态复核于区块 `2025497`；第四版最新状态核验于区块 `2061777`。第四版已完成资金迁移、历史销毁量初始化、添加流动性及交易开放；前后端尚未全部切换，Owner 和运行权限尚未最终转移。
+> 第一版数据取自主网历史快照区块 `1971414`；第三版余额数据查询于主网区块 `2025154`，权限状态复核于区块 `2025497`；第四版是当前生产版本。第五版于 2026-09-03 完成独立合约部署，并在区块 `2115181` 通过链上验收；目前尚未迁移资金、初始化历史销毁量、添加流动性、开放交易、切换前后端或转移 Owner，不能视为已上线版本。
 
 ## 合约地址
 
-| 合约 | 第一版 | 第三版 | 第四版 | 前后端配置位置 |
-|---|---|---|---|---|
-| AMAT | `0x3EE2e767957EdBF92ACE6ADE7AC7Ae24d894eEe3` | `0x58D394C52BAcbF37c0AcbF76Ed4B9F3fC1348BBA` | `0xa8A4682Ed533d7c073e3DcddB2c1c861d4bA23eF` | `swap-web` 的 `hnt`；`rwa-web` 的 `amat` |
-| HNS | `0xFB81DEf8FCE7CA5CE970AFf0A92b391223122F37` | `0xA117a533E14B41B015d739FD9cF85Ee7d9a9333c` | 复用第三版 `0xA117a533E14B41B015d739FD9cF85Ee7d9a9333c` | 两个前端 `addr-prod.js` 的 `hns` |
-| Factory | `0x57cec2862d1AEcB782FCD9CCa3D73623223df617` | `0xe5b2C36C8d6d022F7109912648e8b1425B257275` | `0x740eD20D6b58ceE7E53742cC15B74e8B278C5ed5` | 不直接配置，由 Router 绑定 |
-| AMAT/WAMAX Pair | `0x8c00Cf5EE9134Ad45Fb022B9a7794FCFD48F389a` | `0xa579F7Ce98170232d74CE6Fd1cA21C0192390aDE` | `0xe20713428E413Cf18F4607471f7ca0FF186bfb72` | Swap、AddLiquidity 链上配置 |
-| Router | `0x1C3726C2d8f96FE29395E3AE75e6187BE15e16d7` | `0xD5C3EF7A8CBc52A47187507110854614dc5498e5` | `0x95D012FDe9be6940fbdbcF3FE5Ec39A3a6Cc5EdB` | Swap 链上配置 |
-| ProxyAdmin | `0xA5cCbd613ab7d8A07A84B228F46f1466FE2CB5ed` | `0x02D6bb6db7aE7D91C45b88A7e9ac122712960aCF` | `0x103f298cdb2692895aDE6A09241c327c6f73d812` | 仅升级脚本和运维记录 |
-| Stake Proxy | `0x2121C8bb3B25e4DDFB3AFd66fBA1a98D1Ad8519b` | `0x566c977de3379D771638bb3E07aEcE995E0Ba1C6` | `0x960b934cFf63D14F529eB7345B8aA7CE6ddCFd96` | 两个前端的 `stake`；Go 签名服务 `StakeAddr` |
-| Stake Implementation | `0x7859961cb68A1Be7E3cc521ba3A0443Fd53f4974` | `0xFa4332C3B4500aaC371769c9787135a4De7D21D9` | `0x742Ac0e913D6880f2DDf3536628D9Eacb072E3CE` | 不配置到业务端 |
-| Swap Proxy | `0x3c589859C3244B5Ec581C18a0e4326c540fFb073` | `0xcAA81433BF992bD74155eCA13f9050e73FCC2D6f` | `0x9d7F3eDE438286368065E4173820D0C553e5a679` | 两个前端的 `swap` |
-| Swap Implementation | `0x74FeFD008cA6AA982aF02d683e31F7811dFF9f3E` | `0x34a8A7A767d12657e3F843DC3166015d7BC416a0` | `0xbba46A96ebFd05a3f5C4E589a69651259B452D95` | 不配置到业务端 |
-| AddLiquidity Proxy | `0x08abC66F6360874aB94B1752D58647a5A86bd959` | `0x3B9638F36F53F81bEF433299f381B416cCF4F7F1` | `0xa2A14f347125f6E0be0D0A406Fa177Aa7540Fc8E` | `rwa-web` 的 `addLiquidityByAdmin` |
-| AddLiquidity Implementation | `0xbf451ba7aB185e01B72FBC98fEa8ABF199be3f27` | `0x80C53b0445F4f75AA81Af0Df2DC6804f3eB28dc3` | `0x865e2367896c1a613B28b46FC282f730891D4086` | 不配置到业务端 |
-| RewardShare Proxy | `0x0E4625EA092fA1C3755738BcCF165af68A3F2e51` | `0x37402f5F208Ad74e96aAEFC8182637a6e2960aB4` | `0x50de5040664B28370a5DFeDCC3bb1607538D9e1b` | `rwa-web` 的 `rewardShare` |
-| RewardShare Implementation | `0xC4B3115D55c1B1E6a2485069773824e5E46059D4` | `0xB942c7843a8c94f1bf7b8BBB215DfaFeCc699Da1` | `0x2d03D260fC5cA4a24DB29a799a23B78BC0c6179e` | 不配置到业务端 |
-| PoolBurn Proxy | `0x9556284ec62D914368a56f82788c21048BaFA804` | `0xfD6702009572eC6635b1b9C8FB0E91Fc3fcdA487` | `0x61c7Bcf84C11D438587AfB00857EB27eFd6E4F16` | Swap 链上配置 |
-| PoolBurn Implementation | `0x147F32F89aC7CB65B31dEF43296F629F0C576FA7` | `0x6f779bfDeE996Ce52dfBd3ADfa2990e13561E6aD` | `0x262987CC7700aDae42354575665cF3B319abdc25` | 不配置到业务端 |
+| 合约 | 第一版 | 第三版 | 第四版 | 第五版（候选） | 前后端配置位置 |
+|---|---|---|---|---|---|
+| AMAT | `0x3EE2e767957EdBF92ACE6ADE7AC7Ae24d894eEe3` | `0x58D394C52BAcbF37c0AcbF76Ed4B9F3fC1348BBA` | `0xa8A4682Ed533d7c073e3DcddB2c1c861d4bA23eF` | `0x6D7dF211d2573EA3dA2c23028d1303f186f46181` | `swap-web` 的 `hnt`；`rwa-web` 的 `amat` |
+| HNS | `0xFB81DEf8FCE7CA5CE970AFf0A92b391223122F37` | `0xA117a533E14B41B015d739FD9cF85Ee7d9a9333c` | 复用第三版 `0xA117a533E14B41B015d739FD9cF85Ee7d9a9333c` | `0x6bB6fbd678Be5D56f9E9fbB86f4b346702979564` | 两个前端 `addr-prod.js` 的 `hns` |
+| Factory | `0x57cec2862d1AEcB782FCD9CCa3D73623223df617` | `0xe5b2C36C8d6d022F7109912648e8b1425B257275` | `0x740eD20D6b58ceE7E53742cC15B74e8B278C5ed5` | `0xeA314d53f5749b0f69ee3891913Afb62DC8323E5` | 不直接配置，由 Router 绑定 |
+| AMAT/WAMAX Pair | `0x8c00Cf5EE9134Ad45Fb022B9a7794FCFD48F389a` | `0xa579F7Ce98170232d74CE6Fd1cA21C0192390aDE` | `0xe20713428E413Cf18F4607471f7ca0FF186bfb72` | `0x81aF4468D0a11aFeF876EA8D72bE4c76ff34134A` | Swap、AddLiquidity 链上配置 |
+| Router | `0x1C3726C2d8f96FE29395E3AE75e6187BE15e16d7` | `0xD5C3EF7A8CBc52A47187507110854614dc5498e5` | `0x95D012FDe9be6940fbdbcF3FE5Ec39A3a6Cc5EdB` | `0xE455B45113F98f96382a4f85f748B65952194486` | Swap 链上配置 |
+| ProxyAdmin | `0xA5cCbd613ab7d8A07A84B228F46f1466FE2CB5ed` | `0x02D6bb6db7aE7D91C45b88A7e9ac122712960aCF` | `0x103f298cdb2692895aDE6A09241c327c6f73d812` | `0xbE96E30182743af28b81b0A9609705239F547B12` | 仅升级脚本和运维记录 |
+| Stake Proxy | `0x2121C8bb3B25e4DDFB3AFd66fBA1a98D1Ad8519b` | `0x566c977de3379D771638bb3E07aEcE995E0Ba1C6` | `0x960b934cFf63D14F529eB7345B8aA7CE6ddCFd96` | `0x8c2363Ae0711ad67Fcf4059B1DF734d36D42e654` | 两个前端的 `stake`；Go 签名服务 `StakeAddr` |
+| Stake Implementation | `0x7859961cb68A1Be7E3cc521ba3A0443Fd53f4974` | `0xFa4332C3B4500aaC371769c9787135a4De7D21D9` | `0x742Ac0e913D6880f2DDf3536628D9Eacb072E3CE` | `0x74f837e6CEeB30a63335De363bECED393518665E` | 不配置到业务端 |
+| Swap Proxy | `0x3c589859C3244B5Ec581C18a0e4326c540fFb073` | `0xcAA81433BF992bD74155eCA13f9050e73FCC2D6f` | `0x9d7F3eDE438286368065E4173820D0C553e5a679` | `0x41196B43b7312386A553661D5267EF89223a6FBb` | 两个前端的 `swap` |
+| Swap Implementation | `0x74FeFD008cA6AA982aF02d683e31F7811dFF9f3E` | `0x34a8A7A767d12657e3F843DC3166015d7BC416a0` | `0xbba46A96ebFd05a3f5C4E589a69651259B452D95` | `0x707f5c8Bc56C1Fe0B936B9b1721e4EB061d852A3` | 不配置到业务端 |
+| AddLiquidity Proxy | `0x08abC66F6360874aB94B1752D58647a5A86bd959` | `0x3B9638F36F53F81bEF433299f381B416cCF4F7F1` | `0xa2A14f347125f6E0be0D0A406Fa177Aa7540Fc8E` | `0x39030C26EB5036F5F6e3eBE044Db7B6cb0032623` | `rwa-web` 的 `addLiquidityByAdmin` |
+| AddLiquidity Implementation | `0xbf451ba7aB185e01B72FBC98fEa8ABF199be3f27` | `0x80C53b0445F4f75AA81Af0Df2DC6804f3eB28dc3` | `0x865e2367896c1a613B28b46FC282f730891D4086` | `0xe90c6CcD85fEBed3C3c2d9f39d81EFA55b728bb6` | 不配置到业务端 |
+| RewardShare Proxy | `0x0E4625EA092fA1C3755738BcCF165af68A3F2e51` | `0x37402f5F208Ad74e96aAEFC8182637a6e2960aB4` | `0x50de5040664B28370a5DFeDCC3bb1607538D9e1b` | `0x45212D5be13322C53c58EFed885f14f75a8af2e9` | `rwa-web` 的 `rewardShare` |
+| RewardShare Implementation | `0xC4B3115D55c1B1E6a2485069773824e5E46059D4` | `0xB942c7843a8c94f1bf7b8BBB215DfaFeCc699Da1` | `0x2d03D260fC5cA4a24DB29a799a23B78BC0c6179e` | `0x9bE65f61b097911933060d157Df85891D1753e42` | 不配置到业务端 |
+| PoolBurn Proxy | `0x9556284ec62D914368a56f82788c21048BaFA804` | `0xfD6702009572eC6635b1b9C8FB0E91Fc3fcdA487` | `0x61c7Bcf84C11D438587AfB00857EB27eFd6E4F16` | `0x5a86D81685507825F6946E4c4B59de8C7298B4C8` | Swap 链上配置 |
+| PoolBurn Implementation | `0x147F32F89aC7CB65B31dEF43296F629F0C576FA7` | `0x6f779bfDeE996Ce52dfBd3ADfa2990e13561E6aD` | `0x262987CC7700aDae42354575665cF3B319abdc25` | `0xb7f3D4C6335A0239745C3A2c455190BE8767a08f` | 不配置到业务端 |
 
-外部合约三版一致：USDT `0x2eDE...2064`、WAMAX `0x18b7...F0a9`、AMAX/USDT Pair `0x1aBf...Ec3e`、AMAX/USDT Router `0xA4D0...F9eD`、Invitation `0x3333...3333`。
+外部合约各版一致：USDT `0x2eDE...2064`、WAMAX `0x18b7...F0a9`、AMAX/USDT Pair `0x1aBf...Ec3e`、AMAX/USDT Router `0xA4D0...F9eD`、Invitation `0x3333...3333`。
 
 ## AMAT Token
 
@@ -231,3 +231,55 @@
 - Go 服务需要切换第四版 Stake，并重置第四版事件读取游标；Java、用户前端和 Swap 前端需要切换第四版地址。
 
 > 第四版部署记录：`deployments/evamain-v4-contracts.json`，合约仓库提交 `081913e`。截至本次核验，线上 `amatthing.xyz` 与 `superswaps.xyz` 的构建包仍使用第三版 AMAT、Stake 和 Swap 地址。
+
+## 第五版候选部署
+
+第五版是主网上单独部署的一整套新合约，配置来源为第四版区块 `2115012` 的实时快照。部署脚本和独立验收均已通过，Hardhat 回归测试结果为 `120 passing`。
+
+### 当前状态
+
+| 项目 | 第五版当前值 |
+|---|---|
+| 当前 Owner | 部署账号 `0x69fedCD10A446F1e277b9aFAe4C371e59A40591D`，尚未转给最终 Owner |
+| 最终 Owner | `0x5B20201ABe1b550F685Fff837f3749AfE21baC95` |
+| AMAT | 已暂停；总量 `210,000,000 AMAT`；尚未初始化历史销毁 |
+| HNS | 新部署；未暂停；总量 `100,000,000 HNS`；尚未初始化历史销毁 |
+| Pair | WAMAX、AMAT 储备均为 `0`，LP totalSupply 为 `0` |
+| Stake / PoolBurn | AMAT 余额均为 `0`，尚未注资 |
+| Swap | `burnAmount=0`、`isSellOpen=false`、`canSellGlobal=false` |
+| AddLiquidity 最低储备阈值 | `0`，添加流动性后再设置 |
+| 前后端 | 尚未切换，第四版继续运行 |
+
+### 已镜像的业务配置
+
+| 配置 | 第五版值 |
+|---|---|
+| Stake signer | `0x5f5261D5EE00cf77fff47667846C4Af47F6Cc6F4` |
+| Stake 手续费接收 | `0xFE713348F8178C646927D3F31ade1A6448cFa7cB` |
+| AMAT/HNS 质押比例 | `50% / 50%` |
+| HNS 参考价格 | `1 USDT` |
+| 质押周期步长 | `1,800 秒` |
+| 全平台每日买入额度 | `100,000,000 AMAT` |
+| 单账号每日买入额度 | `100,000,000 AMAT` |
+| 全平台每日卖出额度 | `10 AMAT` |
+| 单账号每日卖出额度 | `10 AMAT` |
+| 买入费率 | `0%` |
+| 卖出 Token 费率 | `6%` |
+| 卖出 AMAX 分润 | `4%` |
+| RewardShare 75% 接收 | `0x93019dBdBd6eBEd325f6b8D5BBE4faBc41EeEac8` |
+| RewardShare 25% 接收 | `0x25cb73F7314d8C318E6DdaeEfd58d418a1aff0Dc` |
+| Swap 额外 AMAX 接收 | `0xe0096BF586D637447860Cc567F755192ddEa5b4d`，比例为 `0` |
+| Factory feeToSetter | `0xFE713348F8178C646927D3F31ade1A6448cFa7cB` |
+
+### 待执行工作
+
+1. 初始化 AMAT/HNS 历史销毁量和 Swap `burnAmount`。
+2. 按确认后的快照迁移 Token 余额，并给 Stake、PoolBurn 注资。
+3. 按第四版价格添加 AMAT/WAMAX 流动性，设置最低储备阈值。
+4. 小额测试买入、卖出、质押和领取流程。
+5. 切换 Go、Java、两个前端及监听任务的合约地址和起始区块。
+6. 移除部署账号 Operator、authorized 和 Token 白名单权限。
+7. 设置 Emergency，并将全部 Owner 和 ProxyAdmin Owner 转给最终 Owner。
+8. 最终验收后再开放 AMAT 转账与 Swap 交易。
+
+> 第五版部署记录：`deployments/evamain-v5-contracts-only.json`。主网链上独立验收通过区块：`2115181`。当前第五版仅为候选部署，不应配置到生产前后端。
